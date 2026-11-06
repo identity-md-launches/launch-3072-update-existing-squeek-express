@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#141423">
+<meta name="description" content="A hamster-powered railway game. Build your crew, deliver cargo, and explore the valley with separate Practice and Squeekchain Live saves.">
+<title>Squeek Express · Night Shift</title>
+<meta property="og:title" content="Squeek Express · Night Shift">
+<meta property="og:description" content="A hamster-powered railway game. Wake your engineer, deliver cargo, and explore the valley.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="./share.png">
+<meta property="og:image:alt" content="The Squeek Express pixel railway, with a hamster wheel and delivery train in a starry valley.">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="needs-profile">
+<a class="skip-link" href="#gameMain">Skip to the railway</a>
+<section class="welcome" id="welcome" role="main" aria-labelledby="welcomeTitle">
+<div class="welcome-world">
+<canvas id="welcomeWorld" width="1100" height="560" aria-hidden="true">
+</canvas>
+</div>
+<div class="welcome-card">
+<a class="logo" href="./">
+<span class="logo-pixel">▦</span> SQUEEK<span>EXPRESS</span>
+</a>
+<h1 id="welcomeTitle">The valley is waiting.</h1>
+<p>A hamster-powered railway game.
+<br>Choose a name to start your shift.</p>
+<form id="usernameForm" novalidate>
+<label for="username">Engineer name</label>
+<input id="username" name="username" type="text" autocomplete="nickname" minlength="3" maxlength="20" pattern="[A-Za-z0-9_]{3,20}" placeholder="Your username" aria-describedby="usernameHint profileError" required>
+<small id="usernameHint">3–20 letters, numbers, or underscores.</small>
+<p id="profileError" role="alert">
+</p>
+<button type="submit" class="run-button">Start your shift →</button>
+</form>
+<button id="welcomeLeaderboard" class="welcome-board">♜ View local leaderboard</button>
+<div class="welcome-note">Local profiles · no account needed.<br>Progress stays in this browser under your name.</div>
+</div>
+</section>
+<header id="gameHeader" inert>
+<a class="logo" href="./">
+<span class="logo-pixel">▦</span> SQUEEK<span>EXPRESS</span>
+<i>NIGHT SHIFT</i>
+</a>
+<nav aria-label="Game navigation">
+<button class="active" id="playNav">◈ Play</button>
+<button id="collectionNav">▧ Crew</button>
+<button id="depotNav">▤ Trains</button>
+<button id="workshopNav">⚒ Workshop</button>
+<button id="leaderboardNav">♜ Rankings</button>
+<button id="questsNav">◇ Quests <i id="questCount">
+</i>
+</button>
+</nav>
+<div class="header-end">
+<div class="source-switch" role="group" aria-label="Data mode">
+<button id="practice" class="selected" aria-pressed="true">Practice</button>
+<button id="live" aria-pressed="false">Live feed <i>
+</i>
+</button>
+</div>
+<button id="switchPlayer" class="player-tag" title="Switch local profile">
+<span>◉</span> <b id="playerName">
+</b> <small>↪</small>
+</button>
+<button id="help" aria-label="How to play">?</button>
+<button id="sound" aria-label="Turn sound on">♫ <span>Off</span>
+</button>
+</div>
+</header>
+<main id="gameMain" tabindex="-1" inert>
+<h1 class="sr-only">Squeek Express railway</h1>
+<section class="game-shell" aria-label="Pixel game world">
+<div class="top-hud">
+<div class="pilot">
+<canvas class="avatar" id="engineerAvatar" width="48" height="48" aria-hidden="true"></canvas>
+<div>
+<b id="hamsterName">Cinnamon</b>
+<small id="mood">Your little engineer is asleep</small>
+</div>
+</div>
+<div class="hud-counters">
+<div>
+<span>ϟ</span>
+<b id="energy">70</b>
+<small id="cap">/100</small>
+</div>
+<div>
+<span>✦</span>
+<b id="coins">0</b>
+<small>Stars</small>
+</div>
+<button id="weather" title="Change the weather in Practice mode">☾ <span>Night</span>
+</button>
+</div>
+</div>
+<div class="scene-art">
+<canvas id="world" width="1100" height="560" role="img" aria-label="A hamster wheel, cozy cabin, and delivery train in a starry valley"></canvas>
+<button class="world-hotspot hut-spot" id="hut" aria-label="Open your hamster crew">Cabin <span>↗</span>
+</button>
+<button class="world-hotspot station-spot" id="station" aria-label="Open the delivery board">Station <span>↗</span>
+</button>
+<button id="forage" class="forage" aria-label="Gather glowing pollen from the valley">
+<span>✧</span>
+<small>Gather pollen</small>
+</button>
+<div class="hint" id="hint">Every journey starts with a little wake-up call.</div>
+</div>
+<div class="scene-status">
+<span class="status-dot" id="dot">
+</span>
+<span id="signal">Practice · simulated hamster</span>
+<span id="rpm">0 RPM</span>
+</div>
+<div class="control-dock">
+<button id="run" class="run-button">
+<span>▶</span> Wake your hamster</button>
+<button id="turbo" class="turbo" disabled>ϟ Boost <small>8 energy</small>
+</button>
+<button id="overlay" class="icon-btn" aria-label="Open stream view" title="Stream view">▣</button>
+</div>
+</section>
+<section class="below">
+<div class="mission-panel">
+<div class="panel-heading">
+<div>
+<h2 id="tripheading">Where are we headed tonight?</h2>
+</div>
+<span class="badge" id="stationbadge">Hazelnut Station</span>
+</div>
+<div class="cargo-heading">
+<span>Choose your cargo</span>
+<span id="cargoDesc">
+</span>
+</div>
+<div class="cargo-picker" id="cargoPicker">
+</div>
+<div id="jobs" class="jobs">
+</div>
+<div id="journeyPanel" hidden>
+<div class="journey-line">
+<strong id="tripName">
+</strong>
+<span id="tripPercent">
+</span>
+</div>
+<div class="track-progress">
+<i id="tripProgress">
+</i>
+</div>
+<p id="tripInfo">Your train is on its way.</p>
+</div>
+<div class="route-toggle">
+<span>Route</span>
+<button class="selected" id="eco" aria-pressed="true">♧ Valley route <small>less energy</small>
+</button>
+<button id="fast" aria-pressed="false">ϟ Hill route <small>faster delivery</small>
+</button>
+</div>
+</div>
+<div class="passport">
+<div class="panel-heading">
+<div>
+<h2>Make your mark.</h2>
+</div>
+<span class="stamp" id="level">01</span>
+</div>
+<button class="quest" id="openQuests">
+<span id="questCheck">◇</span>
+<div>
+<b id="questName">Complete your first delivery</b>
+<small id="questDetail">Explore quests and earn rewards.</small>
+</div>
+<strong id="questProgress">0 / 1</strong>
+</button>
+<div class="stats-row">
+<div>
+<b id="deliveries">0</b>
+<small>Deliveries</small>
+</div>
+<div>
+<b id="distance">0</b>
+<small>Km traveled</small>
+</div>
+<div>
+<b id="owned">1 / 5</b>
+<small>Crew members</small>
+</div>
+</div>
+</div>
+</section>
+<section class="operations">
+<div class="resource-box">
+<h2 class="section-title">Resource satchel</h2>
+<div class="resource-values">
+<span>⚙ <b id="gears">0</b>
+<small>Gears</small>
+</span>
+<span>◇ <b id="crystals">0</b>
+<small>Crystals</small>
+</span>
+<span>✧ <b id="pollen">0</b>
+<small>Pollen</small>
+</span>
+</div>
+<div class="craft-actions">
+<button id="snack">✧ Energy snack <small>4 pollen → 30 energy</small>
+</button>
+<button id="exchange">◇ Crystal exchange <small>2 crystals → 45 stars</small>
+</button>
+</div>
+</div>
+<div class="expedition-box">
+<h2 id="expeditionTitle">Put your spare crew to work.</h2>
+<p id="expeditionDetail">Send your other hamsters exploring for gears, crystals, and stars.</p>
+<button id="expeditionOpen">Plan an expedition ↗</button>
+</div>
+<div class="crew-box">
+<h2 class="section-title">On duty</h2>
+<div id="activePerks">
+</div>
+<button id="browse">Meet the crew and their talents ↗</button>
+</div>
+</section>
+<section class="network">
+<div class="panel-heading">
+<div>
+<h2>New stops. New stories.</h2>
+</div>
+<span class="badge" id="networkCount">3 / 5 stations open</span>
+</div>
+<div class="network-stations" id="networkStations">
+</div>
+</section>
+<footer>
+<span>SQUEEK EXPRESS <i>·</i> A little world, powered by one wheel.</span>
+<div>
+<span id="saveLabel">Saved in this browser · no real-money rewards</span>
+<button id="reset">Reset</button>
+</div>
+</footer>
+</main>
+<dialog id="modal" aria-labelledby="modalTitle">
+<button id="close" aria-label="Close dialog">✕</button>
+<div id="modalContent">
+</div>
+</dialog>
+<div class="toast" id="toast" role="status">
+</div>
+<script type="module" src="app.js">
+</script>
+</body>
+</html>

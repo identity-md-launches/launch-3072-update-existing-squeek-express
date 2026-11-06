@@ -1,0 +1,122 @@
+{
+  "scope": "Committed static export, served at /preview/",
+  "checks": [
+    {
+      "name": "390px first screen and keyboard entry",
+      "passed": true,
+      "detail": "Product, username entry, Start shift, and then Wake your hamster are visible; invalid name is announced and refocused."
+    },
+    {
+      "name": "Practice delivery, ore rewards, and one-time quest",
+      "passed": true,
+      "detail": "Keyboard wake, moving delivery, full completion, gears, quest claim, Escape and focus return."
+    },
+    {
+      "name": "Squeekchain Live baseline, delta, outage, and separate Practice save",
+      "passed": true,
+      "detail": "Mocked official-endpoint responses: baseline credits no history; 10 new units credit 5 energy; outage pauses readings; returning to Practice restores its delivery."
+    },
+    {
+      "name": "Local profiles and leaderboard isolation",
+      "passed": true,
+      "detail": "A second name starts fresh; local rankings contain only saved names in the selected mode."
+    },
+    {
+      "name": "Corrupted expedition recovery in the real UI",
+      "passed": true,
+      "detail": "Unknown expedition dropped; 321 stars, 8 deliveries, 25 km and the leaderboard entry survive save and reload."
+    },
+    {
+      "name": "Safe expedition rendering and canonical single claim",
+      "passed": true,
+      "detail": "HTML name becomes built-in text; forged rewards and ready flag are ignored; claim waits for completion and pays exactly 35 stars and 2 gears once."
+    },
+    {
+      "name": "Independent stream view",
+      "passed": true,
+      "detail": "Direct overlay URL opens without username, account or wallet, renders the scene, and creates no player save."
+    },
+    {
+      "name": "Crew, train perks, upgrades, crafting, and responsive dialogs",
+      "passed": true,
+      "detail": "Real purchase/equip/upgrade/craft/exchange controls; 20-character username and dialogs fit at 320, 390, 768, 1440px."
+    },
+    {
+      "name": "Static subpath, local resources, and runtime errors",
+      "passed": true,
+      "detail": "No missing assets or page errors; no external requests except the explicitly tested official API."
+    }
+  ],
+  "limitations": [
+    "Unmocked browser live-feed smoke could not obtain usable telemetry; the UI reports the signal as unavailable and preserves saved energy.",
+    "WebKit browser check could not run: browserType.launch: Executable doesn't exist at [runtime path]",
+    "Live success/outage scenarios use deterministic response fixtures; service availability is checked separately.",
+    "No physical-device, native screen-reader, or browser-native zoom session. Reflow and reduced-motion browser emulation are checked."
+  ],
+  "consoleErrors": [],
+  "externalRequests": [
+    "https://api.squeekchain.com/v1/status",
+    "https://api.squeekchain.com/v1/status",
+    "https://api.squeekchain.com/v1/status",
+    "https://api.squeekchain.com/v1/status",
+    "https://api.squeekchain.com/v1/status",
+    "https://api.squeekchain.com/v1/status"
+  ],
+  "contrastPairs": [
+    {
+      "selector": "#usernameHint",
+      "measured": true,
+      "foreground": "rgb(170, 166, 190)",
+      "background": "rgb(29, 30, 45)",
+      "ratio": 6.98
+    },
+    {
+      "selector": ".welcome-note",
+      "measured": true,
+      "foreground": "rgb(170, 166, 190)",
+      "background": "rgb(29, 30, 45)",
+      "ratio": 6.98
+    },
+    {
+      "selector": ".welcome-card>p",
+      "measured": true,
+      "foreground": "rgb(172, 164, 189)",
+      "background": "rgb(29, 30, 45)",
+      "ratio": 6.9
+    },
+    {
+      "selector": "#usernameForm button",
+      "measured": true,
+      "foreground": "rgb(28, 60, 50)",
+      "background": "rgb(185, 243, 207)",
+      "ratio": 9.64
+    },
+    {
+      "selector": "#signal",
+      "measured": true,
+      "foreground": "rgb(167, 166, 202)",
+      "background": "rgb(27, 25, 49)",
+      "ratio": 7.28
+    },
+    {
+      "selector": ".job small",
+      "measured": true,
+      "foreground": "rgb(170, 166, 190)",
+      "background": "rgb(37, 38, 54)",
+      "ratio": 6.32
+    },
+    {
+      "selector": "#networkStations .current i",
+      "measured": true,
+      "foreground": "rgb(41, 70, 59)",
+      "background": "rgb(185, 243, 207)",
+      "ratio": 8.25
+    }
+  ],
+  "realLive": {
+    "httpStatus": null,
+    "signal": "Live signal unavailable · wheel energy paused",
+    "rpm": "Unknown RPM"
+  },
+  "passed": true
+}

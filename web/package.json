@@ -1,0 +1,13 @@
+{
+  "name": "squeek-express-static",
+  "version": "0.3.1",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "npm exec --yes --package typescript@5.9.3 -- tsc -p jsconfig.json",
+    "check": "node --check src/app.js && node --check src/engine.mjs && node --check src/scene.mjs && node --check src/profiles.mjs && node --check build.mjs",
+    "test": "node ../check.mjs && node ../check-profiles.mjs"
+  }
+}
